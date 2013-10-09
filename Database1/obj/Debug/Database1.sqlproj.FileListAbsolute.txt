@@ -1,9 +1,0 @@
-c:\users\zeca\documents\visual studio 2012\Projects\Database1\bin\Debug\Database1.dacpac
-c:\users\zeca\documents\visual studio 2012\Projects\Database1\bin\Debug\Database1.dll
-c:\users\zeca\documents\visual studio 2012\Projects\Database1\bin\Debug\Database1.pdb
-c:\users\zeca\documents\visual studio 2012\Projects\Database1\obj\Debug\Model.xml
-c:\users\zeca\documents\visual studio 2012\Projects\Database1\obj\Debug\refactor.xml
-c:\users\zeca\documents\visual studio 2012\Projects\Database1\obj\Debug\postdeploy.sql
-c:\users\zeca\documents\visual studio 2012\Projects\Database1\obj\Debug\predeploy.sql
-c:\users\zeca\documents\visual studio 2012\Projects\Database1\obj\Debug\Database1.dll
-c:\users\zeca\documents\visual studio 2012\Projects\Database1\obj\Debug\Database1.pdb
