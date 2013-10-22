@@ -23,10 +23,12 @@ namespace WcfService1
         public string name { get; set; }
         public string password { get; set; }
         public string email { get; set; }
-        public Nullable<int> t1 { get; set; }
-        public Nullable<int> t2 { get; set; }
-        public Nullable<int> t3 { get; set; }
+        public int t1 { get; set; }
+        public int t2 { get; set; }
+        public int t3 { get; set; }
         public string creditcard { get; set; }
+        public string authtoken { get; set; }
+        public byte[] authtimestamp { get; set; }
     
         public virtual ICollection<Validation> Validation { get; set; }
     }

@@ -4,54 +4,43 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DatabaseModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityContainer Name="DatabaseModelStoreContainer">
-          <EntitySet Name="Spot" EntityType="DatabaseModel.Store.Spot" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="User" EntityType="DatabaseModel.Store.User" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Validation" EntityType="DatabaseModel.Store.Validation" store:Type="Tables" Schema="dbo" />
-          <AssociationSet Name="FK_spot_id" Association="DatabaseModel.Store.FK_spot_id">
-            <End Role="Spot" EntitySet="Spot" />
-            <End Role="Validation" EntitySet="Validation" />
-          </AssociationSet>
-          <AssociationSet Name="FK_user_id" Association="DatabaseModel.Store.FK_user_id">
-            <End Role="User" EntitySet="User" />
-            <End Role="Validation" EntitySet="Validation" />
-          </AssociationSet>
-        </EntityContainer>
+    <Schema Namespace="DatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Spot">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="name" Type="nchar" Nullable="false" MaxLength="10" />
-          <Property Name="android_id" Type="nchar" Nullable="false" MaxLength="10" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nchar" MaxLength="255" Nullable="false" />
+          <Property Name="android_id" Type="nchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="name" Type="nchar" MaxLength="10" />
-          <Property Name="password" Type="nchar" MaxLength="10" />
-          <Property Name="email" Type="nchar" MaxLength="10" />
-          <Property Name="creditcard" Type="nchar" MaxLength="10" />
-          <Property Name="t1" Type="int" />
-          <Property Name="t2" Type="int" />
-          <Property Name="t3" Type="int" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nchar" MaxLength="255" Nullable="false" />
+          <Property Name="password" Type="nchar" MaxLength="255" Nullable="false" />
+          <Property Name="email" Type="nchar" MaxLength="255" Nullable="false" />
+          <Property Name="creditcard" Type="nchar" MaxLength="255" Nullable="false" />
+          <Property Name="t1" Type="int" Nullable="false" />
+          <Property Name="t2" Type="int" Nullable="false" />
+          <Property Name="t3" Type="int" Nullable="false" />
+          <Property Name="authtoken" Type="nchar" MaxLength="255" />
+          <Property Name="authtimestamp" Type="timestamp" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="Validation">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="tipo" Type="int" Nullable="false" />
-          <Property Name="stamp" Type="timestamp" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="stamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
           <Property Name="user" Type="int" Nullable="false" />
           <Property Name="spot" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_spot_id">
-          <End Role="Spot" Type="DatabaseModel.Store.Spot" Multiplicity="1" />
-          <End Role="Validation" Type="DatabaseModel.Store.Validation" Multiplicity="*" />
+          <End Role="Spot" Type="Self.Spot" Multiplicity="1" />
+          <End Role="Validation" Type="Self.Validation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Spot">
               <PropertyRef Name="Id" />
@@ -62,8 +51,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_user_id">
-          <End Role="User" Type="DatabaseModel.Store.User" Multiplicity="1" />
-          <End Role="Validation" Type="DatabaseModel.Store.Validation" Multiplicity="*" />
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Validation" Type="Self.Validation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="Id" />
@@ -73,6 +62,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityContainer Name="DatabaseModelStoreContainer">
+          <EntitySet Name="Spot" EntityType="Self.Spot" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Validation" EntityType="Self.Validation" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_spot_id" Association="Self.FK_spot_id">
+            <End Role="Spot" EntitySet="Spot" />
+            <End Role="Validation" EntitySet="Validation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_id" Association="Self.FK_user_id">
+            <End Role="User" EntitySet="User" />
+            <End Role="Validation" EntitySet="Validation" />
+          </AssociationSet>
+        </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -82,8 +84,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="name" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="android_id" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="android_id" Type="String" MaxLength="255" FixedLength="true" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Validation" Relationship="Self.FK_spot_id" FromRole="Spot" ToRole="Validation" />
         </EntityType>
         <EntityType Name="User">
@@ -91,14 +93,16 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="name" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="password" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="email" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="t1" Type="Int32" />
-          <Property Name="t2" Type="Int32" />
-          <Property Name="t3" Type="Int32" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="255" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="255" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="t1" Type="Int32" Nullable="false" />
+          <Property Name="t2" Type="Int32" Nullable="false" />
+          <Property Name="t3" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Validation" Relationship="Self.FK_user_id" FromRole="User" ToRole="Validation" />
-          <Property Name="creditcard" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="creditcard" Type="String" MaxLength="255" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="authtoken" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <Property Name="authtimestamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="Validation">
           <Key>
@@ -167,6 +171,8 @@
           <EntitySetMapping Name="User">
             <EntityTypeMapping TypeName="DatabaseModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="authtimestamp" ColumnName="authtimestamp" />
+                <ScalarProperty Name="authtoken" ColumnName="authtoken" />
                 <ScalarProperty Name="creditcard" ColumnName="creditcard" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="name" ColumnName="name" />
