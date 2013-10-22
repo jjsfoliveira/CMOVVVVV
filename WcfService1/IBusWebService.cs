@@ -15,5 +15,13 @@ namespace WcfService1
         [OperationContract]
         [WebGet(UriTemplate = "/{index}", ResponseFormat = WebMessageFormat.Json)]
         string DoWork(string index);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/createuser?name={name}&password={password}&creditcard={creditcard}&email={email}", ResponseFormat = WebMessageFormat.Json)]
+        string createUser(string name, string password, string creditcard, string email);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/login?email={email}&password={password}", ResponseFormat = WebMessageFormat.Json)]
+        string login(string email, string password);
     }
 }
