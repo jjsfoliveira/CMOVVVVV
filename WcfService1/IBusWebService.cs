@@ -23,5 +23,14 @@ namespace WcfService1
         [OperationContract]
         [WebGet(UriTemplate = "/login?email={email}&password={password}", ResponseFormat = WebMessageFormat.Json)]
         string login(string email, string password);
+
+        
+        [OperationContract]
+        [WebGet(UriTemplate = "/spots?name={name}&androi_id={android_id}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        int AddSpot(string name, string android_id);
+        /*
+        [OperationContract]
+        [WebGet(UriTemplate = "/validations?type={spot}&androi_id={android_id}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        */
     }
 }

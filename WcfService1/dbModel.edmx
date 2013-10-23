@@ -4,24 +4,44 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DatabaseModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="DatabaseModelStoreContainer">
+          <EntitySet Name="Spot" EntityType="DatabaseModel.Store.Spot" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Table" EntityType="DatabaseModel.Store.Table" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="User" EntityType="DatabaseModel.Store.User" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Validation" EntityType="DatabaseModel.Store.Validation" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_spot_id" Association="DatabaseModel.Store.FK_spot_id">
+            <End Role="Spot" EntitySet="Spot" />
+            <End Role="Validation" EntitySet="Validation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_id" Association="DatabaseModel.Store.FK_user_id">
+            <End Role="User" EntitySet="User" />
+            <End Role="Validation" EntitySet="Validation" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Spot">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="name" Type="nchar" MaxLength="255" Nullable="false" />
-          <Property Name="android_id" Type="nchar" MaxLength="255" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="nchar" Nullable="false" MaxLength="255" />
+          <Property Name="android_id" Type="nchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Table">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="name" Type="nchar" MaxLength="255" Nullable="false" />
-          <Property Name="password" Type="nchar" MaxLength="255" Nullable="false" />
-          <Property Name="email" Type="nchar" MaxLength="255" Nullable="false" />
-          <Property Name="creditcard" Type="nchar" MaxLength="255" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="nchar" Nullable="false" MaxLength="255" />
+          <Property Name="password" Type="nchar" Nullable="false" MaxLength="255" />
+          <Property Name="email" Type="nchar" Nullable="false" MaxLength="255" />
+          <Property Name="creditcard" Type="nchar" Nullable="false" MaxLength="255" />
           <Property Name="t1" Type="int" Nullable="false" />
           <Property Name="t2" Type="int" Nullable="false" />
           <Property Name="t3" Type="int" Nullable="false" />
@@ -32,15 +52,15 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="tipo" Type="int" Nullable="false" />
-          <Property Name="stamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="type" Type="int" Nullable="false" />
+          <Property Name="stamp" Type="timestamp" Nullable="false" StoreGeneratedPattern="Computed" />
           <Property Name="user" Type="int" Nullable="false" />
           <Property Name="spot" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_spot_id">
-          <End Role="Spot" Type="Self.Spot" Multiplicity="1" />
-          <End Role="Validation" Type="Self.Validation" Multiplicity="*" />
+          <End Role="Spot" Type="DatabaseModel.Store.Spot" Multiplicity="1" />
+          <End Role="Validation" Type="DatabaseModel.Store.Validation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Spot">
               <PropertyRef Name="Id" />
@@ -51,8 +71,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_user_id">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Validation" Type="Self.Validation" Multiplicity="*" />
+          <End Role="User" Type="DatabaseModel.Store.User" Multiplicity="1" />
+          <End Role="Validation" Type="DatabaseModel.Store.Validation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="Id" />
@@ -62,19 +82,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="DatabaseModelStoreContainer">
-          <EntitySet Name="Spot" EntityType="Self.Spot" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Validation" EntityType="Self.Validation" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_spot_id" Association="Self.FK_spot_id">
-            <End Role="Spot" EntitySet="Spot" />
-            <End Role="Validation" EntitySet="Validation" />
-          </AssociationSet>
-          <AssociationSet Name="FK_user_id" Association="Self.FK_user_id">
-            <End Role="User" EntitySet="User" />
-            <End Role="Validation" EntitySet="Validation" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -109,12 +116,12 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="tipo" Type="Int32" Nullable="false" />
           <Property Name="stamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="user" Type="Int32" Nullable="false" />
           <Property Name="spot" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Spot1" Relationship="Self.FK_spot_id" FromRole="Validation" ToRole="Spot" />
           <NavigationProperty Name="User1" Relationship="Self.FK_user_id" FromRole="Validation" ToRole="User" />
+          <Property Type="Int32" Name="type" Nullable="false" />
         </EntityType>
         <Association Name="FK_spot_id">
           <End Role="Spot" Type="Self.Spot" Multiplicity="1" />
@@ -152,7 +159,14 @@
             <End Role="User" EntitySet="User" />
             <End Role="Validation" EntitySet="Validation" />
           </AssociationSet>
+          <EntitySet Name="Table" EntityType="DatabaseModel.Table" />
         </EntityContainer>
+        <EntityType Name="Table">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -187,11 +201,18 @@
           <EntitySetMapping Name="Validation">
             <EntityTypeMapping TypeName="DatabaseModel.Validation">
               <MappingFragment StoreEntitySet="Validation">
+                <ScalarProperty Name="type" ColumnName="type" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="tipo" ColumnName="tipo" />
                 <ScalarProperty Name="stamp" ColumnName="stamp" />
                 <ScalarProperty Name="user" ColumnName="user" />
                 <ScalarProperty Name="spot" ColumnName="spot" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Table">
+            <EntityTypeMapping TypeName="DatabaseModel.Table">
+              <MappingFragment StoreEntitySet="Table">
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

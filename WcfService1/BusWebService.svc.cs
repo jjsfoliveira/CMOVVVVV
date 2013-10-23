@@ -88,5 +88,22 @@ namespace WcfService1
             }
                 return "0";
         }
+
+        public int AddSpot(string name, string android_id)
+        {   
+            Spot s = db.Spot.SingleOrDefault(p => p.android_id == android_id);
+            if (s != null)
+            {
+                return s.Id;
+            }
+            else
+            {
+                s = new Spot{name = name, android_id = android_id};
+                db.Spot.Add(s);
+                db.SaveChanges();
+
+                return s.Id;
+            }
+        }
     }
 }
