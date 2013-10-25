@@ -26,7 +26,7 @@ namespace WcfService1
 
         
         [OperationContract]
-        [WebGet(UriTemplate = "/spots?name={name}&androi_id={android_id}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        [WebGet(UriTemplate = "/spots?name={name}&android_id={android_id}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         int AddSpot(string name, string android_id);
         /*
         [OperationContract]
