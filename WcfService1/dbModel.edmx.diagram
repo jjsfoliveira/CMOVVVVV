@@ -10,6 +10,7 @@
         <EntityTypeShape EntityType="DatabaseModel.Validation" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="DatabaseModel.FK_spot_id" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.FK_user_id" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DatabaseModel.Table" Width="1.5" PointX="11.354716166553422" PointY="21.485979015699577" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -28,5 +28,6 @@ namespace BusServer
         public DbSet<Spot> Spot { get; set; }
         public DbSet<User> User { get; set; }
         public DbSet<Validation> Validation { get; set; }
+        public DbSet<Table> Table { get; set; }
     }
 }

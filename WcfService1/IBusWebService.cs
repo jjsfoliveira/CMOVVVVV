@@ -16,12 +16,19 @@ namespace WcfService1
         [OperationContract]
         [WebGet(UriTemplate = "/createuser?name={name}&password={password}&creditcard={creditcard}&email={email}", ResponseFormat = WebMessageFormat.Json)]
         string createUser(string name, string password, string creditcard, string email);
-
         [OperationContract]
         [WebGet(UriTemplate = "/login?email={email}&password={password}", ResponseFormat = WebMessageFormat.Json)]
         string login(string email, string password);
 
+		[OperationContract]
+        [WebGet(UriTemplate = "/spots?name={name}&android_id={android_id}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        int AddSpot(string name, string android_id);
+
+
         [OperationContract]
+        [WebGet(UriTemplate = "/validate?user={user}&type={type}&spot={spot}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        int validate(string user, string type,string spot);
+		[OperationContract]
         [WebGet(UriTemplate = "/getuserinfo?token={token}", ResponseFormat = WebMessageFormat.Json)]
         User getUserInfo(string token);
 
@@ -31,6 +38,5 @@ namespace WcfService1
 
         [OperationContract]
         [WebGet(UriTemplate = "/activateTicket?token={token}&tickettype={ticketType}", ResponseFormat = WebMessageFormat.Json)]
-        string activateTicket(string token, string ticketType);
-    }
+        string activateTicket(string token, string ticketType);    }
 }
