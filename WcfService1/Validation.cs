@@ -15,7 +15,7 @@ namespace WcfService1
     public partial class Validation
     {
         public int Id { get; set; }
-        public byte[] stamp { get; set; }
+        public System.DateTime stamp { get; set; }
         public int user { get; set; }
         public int spot { get; set; }
         public int type { get; set; }

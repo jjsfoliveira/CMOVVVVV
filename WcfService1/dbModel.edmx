@@ -10,11 +10,11 @@
           <EntitySet Name="Table" EntityType="DatabaseModel.Store.Table" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="User" EntityType="DatabaseModel.Store.User" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Validation" EntityType="DatabaseModel.Store.Validation" store:Type="Tables" Schema="dbo" />
-          <AssociationSet Name="FK_spot_id" Association="DatabaseModel.Store.FK_spot_id">
+          <AssociationSet Name="FK__Validation__spot__41B8C09B" Association="DatabaseModel.Store.FK__Validation__spot__41B8C09B">
             <End Role="Spot" EntitySet="Spot" />
             <End Role="Validation" EntitySet="Validation" />
           </AssociationSet>
-          <AssociationSet Name="FK_user_id" Association="DatabaseModel.Store.FK_user_id">
+          <AssociationSet Name="FK__Validation__user__42ACE4D4" Association="DatabaseModel.Store.FK__Validation__user__42ACE4D4">
             <End Role="User" EntitySet="User" />
             <End Role="Validation" EntitySet="Validation" />
           </AssociationSet>
@@ -54,11 +54,11 @@
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="type" Type="int" Nullable="false" />
-          <Property Name="stamp" Type="timestamp" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="stamp" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
           <Property Name="user" Type="int" Nullable="false" />
           <Property Name="spot" Type="int" Nullable="false" />
         </EntityType>
-        <Association Name="FK_spot_id">
+        <Association Name="FK__Validation__spot__41B8C09B">
           <End Role="Spot" Type="DatabaseModel.Store.Spot" Multiplicity="1" />
           <End Role="Validation" Type="DatabaseModel.Store.Validation" Multiplicity="*" />
           <ReferentialConstraint>
@@ -70,7 +70,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_user_id">
+        <Association Name="FK__Validation__user__42ACE4D4">
           <End Role="User" Type="DatabaseModel.Store.User" Multiplicity="1" />
           <End Role="Validation" Type="DatabaseModel.Store.Validation" Multiplicity="*" />
           <ReferentialConstraint>
@@ -90,7 +90,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="255" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="android_id" Type="String" MaxLength="255" FixedLength="true" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Validation" Relationship="Self.FK_spot_id" FromRole="Spot" ToRole="Validation" />
@@ -99,7 +99,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="name" Type="String" MaxLength="255" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="password" Type="String" MaxLength="255" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="email" Type="String" MaxLength="255" FixedLength="true" Unicode="true" Nullable="false" />
@@ -115,8 +115,8 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="stamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="stamp" Type="DateTime" annotation:StoreGeneratedPattern="Computed" Nullable="false" Precision="3" />
           <Property Name="user" Type="Int32" Nullable="false" />
           <Property Name="spot" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Spot1" Relationship="Self.FK_spot_id" FromRole="Validation" ToRole="Spot" />

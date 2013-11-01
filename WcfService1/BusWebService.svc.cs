@@ -92,6 +92,7 @@ namespace WcfService1
         public int AddSpot(string name, string android_id)
         {   
             Spot s = db.Spot.SingleOrDefault(p => p.android_id == android_id);
+           
             if (s != null)
             {
                 return s.Id;
@@ -104,6 +105,32 @@ namespace WcfService1
 
                 return s.Id;
             }
+        }
+
+        public int validate(string user, string type, string spot)
+        {
+            int u = Convert.ToInt16(user);
+            Validation v = db.Validation.SingleOrDefault(p => p.user == u);
+            Validation val;
+            if (v != null)
+            {
+                db.Validation.Remove(v);
+                val = new Validation {type = Convert.ToInt16(type), user = Convert.ToInt16(user), spot = Convert.ToInt16(spot)};
+                db.Validation.Add(val);
+                db.SaveChanges();
+            }
+            else
+            {
+                int _type = Convert.ToInt32(type);
+                int _user = Convert.ToInt32(user);
+                int _spot = Convert.ToInt32(spot);
+                val = new Validation { type = _type, user = _user, spot = _spot};
+                db.Validation.Add(val);
+                db.SaveChanges();
+            
+            }
+
+            return val.Id;
         }
     }
 }
