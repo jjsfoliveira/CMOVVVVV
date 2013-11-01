@@ -25,18 +25,15 @@ namespace WcfService1
         int AddSpot(string name, string android_id);
 
 
-        [OperationContract]
-        [WebGet(UriTemplate = "/validate?user={user}&type={type}&spot={spot}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        int validate(string user, string type,string spot);
 		[OperationContract]
         [WebGet(UriTemplate = "/getuserinfo?token={token}", ResponseFormat = WebMessageFormat.Json)]
         User getUserInfo(string token);
 
         [OperationContract]
-        [WebGet(UriTemplate = "/buyTicket?token={token}&tickettype={ticketType}&number={number}", ResponseFormat = WebMessageFormat.Json)]
-        string buyTicket(string token, string ticketType, int number);
+        [WebGet(UriTemplate = "/buyTicket?token={token}&n1={n1}}&n2={n2}}&n3={n3}", ResponseFormat = WebMessageFormat.Json)]
+        string buyTicket(string token,int n1, int n2, int n3);
 
         [OperationContract]
-        [WebGet(UriTemplate = "/activateTicket?token={token}&tickettype={ticketType}", ResponseFormat = WebMessageFormat.Json)]
-        string activateTicket(string token, string ticketType);    }
+        [WebGet(UriTemplate = "/activateTicket?token={token}&tickettype={ticketType}&spot={spot}", ResponseFormat = WebMessageFormat.Json)]
+        string activateTicket(string token, int ticketType, int spot);    }
 }

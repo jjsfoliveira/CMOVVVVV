@@ -104,85 +104,81 @@ namespace WcfService1
             }
         }
 
-        public int validate(string user, string type, string spot)
-        {
-            int u = Convert.ToInt16(user);
-            Validation v = db.Validation.SingleOrDefault(p => p.user == u);
-            Validation val;
-            if (v != null)
-            {
-                db.Validation.Remove(v);
-                val = new Validation {type = Convert.ToInt16(type), user = Convert.ToInt16(user), spot = Convert.ToInt16(spot)};
-                db.Validation.Add(val);
-                db.SaveChanges();
-            }
-            else
-            {
-                int _type = Convert.ToInt32(type);
-                int _user = Convert.ToInt32(user);
-                int _spot = Convert.ToInt32(spot);
-                val = new Validation { type = _type, user = _user, spot = _spot};
-                db.Validation.Add(val);
-                db.SaveChanges();
-            
-            }
 
-            return val.Id;
-        }
-
-public User getUserInfo(string token)
+        public User getUserInfo(string token)
         {
             return db.User.SingleOrDefault(user => user.authtoken == token);
         }
 
-        public string buyTicket(string token, string ticketType, int number)
+        public string buyTicket(string token, int n1, int n2, int n3)
         {
             User u = db.User.SingleOrDefault(user => user.authtoken == token);
             if(u!= null)
             {
-                switch(ticketType)
+                if (n1 + n2 + n3 >= 10)
                 {
-                    case "1":
-                        u.t1 += number;
-                        break;
-                    case "2":
-                        u.t2 += number;
-                        break;
-                    case "3":
-                        u.t3 += number;
-                        break;
                 }
-                db.SaveChanges();
-                return "1";
+                u.t1 += n1;
+                u.t2 += n2;
+                u.t3 += n3;
             }
             return "0";
         }
 
-        public string activateTicket(string token, string ticketType)
+        public string activateTicket(string token, int ticketType, int spot)
         {
             User u = db.User.SingleOrDefault(user => user.authtoken == token);
             if (u != null)
             {
-                switch (ticketType)
+                Validation v = db.Validation.SingleOrDefault(p => p.user == u.Id);
+                if (v == null)
                 {
-                    case "1":
-                        if (u.t1 > 0)
-                            u.t1 -= 1;
-                        else
-                            return "0";
-                        break;
-                    case "2":
-                        if (u.t2 > 0)
-                            u.t2 -= 1;
-                        else
-                            return "0";
-                        break;
-                    case "3":
-                        if (u.t3 > 0)
-                            u.t3 -= 1;
-                        else
-                            return "0";
-                        break;
+                    switch (ticketType)
+                    {
+                        case 1:
+                            if (u.t1 > 0)
+                                u.t1 -= 1;
+                            else
+                                return "0";
+                            break;
+                        case 2:
+                            if (u.t2 > 0)
+                                u.t2 -= 1;
+                            else
+                                return "0";
+                            break;
+                        case 3:
+                            if (u.t3 > 0)
+                                u.t3 -= 1;
+                            else
+                                return "0";
+                            break;
+                    }
+                    v = new Validation();
+                    v.type = ticketType;
+                    v.user = u.Id;
+                    v.spot = spot;
+                }
+                else
+                {
+                    /*
+                    TimeSpan t = v.stamp - DateTime.Now;
+                    int t1;
+                    switch (v.type)
+                    {
+                        case 1:
+                            t1 = 60;
+                            break;
+                        case 2:
+                            t1 = 30;
+                            break;
+                        case 3:
+                            t1 = 15;
+                            break;
+                    }
+                     * */
+                    v.type = ticketType;
+                    v.spot = spot;
                 }
                 db.SaveChanges();
                 return "1";

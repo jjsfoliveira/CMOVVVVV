@@ -4,28 +4,14 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DatabaseModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityContainer Name="DatabaseModelStoreContainer">
-          <EntitySet Name="Spot" EntityType="DatabaseModel.Store.Spot" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Table" EntityType="DatabaseModel.Store.Table" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="User" EntityType="DatabaseModel.Store.User" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Validation" EntityType="DatabaseModel.Store.Validation" store:Type="Tables" Schema="dbo" />
-          <AssociationSet Name="FK__Validation__spot__41B8C09B" Association="DatabaseModel.Store.FK__Validation__spot__41B8C09B">
-            <End Role="Spot" EntitySet="Spot" />
-            <End Role="Validation" EntitySet="Validation" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Validation__user__42ACE4D4" Association="DatabaseModel.Store.FK__Validation__user__42ACE4D4">
-            <End Role="User" EntitySet="User" />
-            <End Role="Validation" EntitySet="Validation" />
-          </AssociationSet>
-        </EntityContainer>
+    <Schema Namespace="DatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Spot">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="nchar" Nullable="false" MaxLength="255" />
-          <Property Name="android_id" Type="nchar" Nullable="false" MaxLength="255" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nchar" MaxLength="255" Nullable="false" />
+          <Property Name="android_id" Type="nchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="Table">
           <Key>
@@ -37,11 +23,11 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="nchar" Nullable="false" MaxLength="255" />
-          <Property Name="password" Type="nchar" Nullable="false" MaxLength="255" />
-          <Property Name="email" Type="nchar" Nullable="false" MaxLength="255" />
-          <Property Name="creditcard" Type="nchar" Nullable="false" MaxLength="255" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nchar" MaxLength="255" Nullable="false" />
+          <Property Name="password" Type="nchar" MaxLength="255" Nullable="false" />
+          <Property Name="email" Type="nchar" MaxLength="255" Nullable="false" />
+          <Property Name="creditcard" Type="nchar" MaxLength="255" Nullable="false" />
           <Property Name="t1" Type="int" Nullable="false" />
           <Property Name="t2" Type="int" Nullable="false" />
           <Property Name="t3" Type="int" Nullable="false" />
@@ -52,15 +38,15 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="type" Type="int" Nullable="false" />
           <Property Name="stamp" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
           <Property Name="user" Type="int" Nullable="false" />
           <Property Name="spot" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK__Validation__spot__41B8C09B">
-          <End Role="Spot" Type="DatabaseModel.Store.Spot" Multiplicity="1" />
-          <End Role="Validation" Type="DatabaseModel.Store.Validation" Multiplicity="*" />
+          <End Role="Spot" Type="Self.Spot" Multiplicity="1" />
+          <End Role="Validation" Type="Self.Validation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Spot">
               <PropertyRef Name="Id" />
@@ -71,8 +57,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Validation__user__42ACE4D4">
-          <End Role="User" Type="DatabaseModel.Store.User" Multiplicity="1" />
-          <End Role="Validation" Type="DatabaseModel.Store.Validation" Multiplicity="*" />
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Validation" Type="Self.Validation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="Id" />
@@ -82,6 +68,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityContainer Name="DatabaseModelStoreContainer">
+          <EntitySet Name="Spot" EntityType="Self.Spot" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Table" EntityType="Self.Table" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Validation" EntityType="Self.Validation" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Validation__spot__41B8C09B" Association="Self.FK__Validation__spot__41B8C09B">
+            <End Role="Spot" EntitySet="Spot" />
+            <End Role="Validation" EntitySet="Validation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Validation__user__42ACE4D4" Association="Self.FK__Validation__user__42ACE4D4">
+            <End Role="User" EntitySet="User" />
+            <End Role="Validation" EntitySet="Validation" />
+          </AssociationSet>
+        </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
