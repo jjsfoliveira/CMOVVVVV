@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusServer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -11,11 +12,7 @@ namespace WcfService1
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IBusWebService" in both code and config file together.
     [ServiceContract]
     public interface IBusWebService
-    {
-        [OperationContract]
-        [WebGet(UriTemplate = "/{index}", ResponseFormat = WebMessageFormat.Json)]
-        string DoWork(string index);
-
+    {   
         [OperationContract]
         [WebGet(UriTemplate = "/createuser?name={name}&password={password}&creditcard={creditcard}&email={email}", ResponseFormat = WebMessageFormat.Json)]
         string createUser(string name, string password, string creditcard, string email);
@@ -23,5 +20,17 @@ namespace WcfService1
         [OperationContract]
         [WebGet(UriTemplate = "/login?email={email}&password={password}", ResponseFormat = WebMessageFormat.Json)]
         string login(string email, string password);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/getuserinfo?token={token}", ResponseFormat = WebMessageFormat.Json)]
+        User getUserInfo(string token);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/buyTicket?token={token}&tickettype={ticketType}&number={number}", ResponseFormat = WebMessageFormat.Json)]
+        string buyTicket(string token, string ticketType, int number);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/activateTicket?token={token}&tickettype={ticketType}", ResponseFormat = WebMessageFormat.Json)]
+        string activateTicket(string token, string ticketType);
     }
 }

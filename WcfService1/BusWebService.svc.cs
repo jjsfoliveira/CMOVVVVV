@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusServer;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
@@ -19,11 +20,6 @@ namespace WcfService1
         public BusWebService()
         {
             db = new DatabaseEntities();
-        }
-
-        public string DoWork(string index)
-        {
-            return "eagoracaralho" + index;
         }
 
         private string generateToken()
@@ -70,7 +66,6 @@ namespace WcfService1
                 // Throw a new DbEntityValidationException with the improved exception message.
                 throw new DbEntityValidationException(exceptionMessage, ex.EntityValidationErrors);
             }
-            string token = generateToken();
 
             return db.User.Count().ToString();
             //return token;
@@ -83,10 +78,79 @@ namespace WcfService1
             {   
                 if (myUser.password == password)
                 {
-                    return generateToken();
+                    string s = generateToken();
+                    myUser.authtoken = s;
+                    db.SaveChanges();
+                    return s;
                 }
             }
                 return "0";
         }
+
+        public User getUserInfo(string token)
+        {
+            return db.User.SingleOrDefault(user => user.authtoken == token);
+        }
+
+        public string buyTicket(string token, string ticketType, int number)
+        {
+            User u = db.User.SingleOrDefault(user => user.authtoken == token);
+            if(u!= null)
+            {
+                switch(ticketType)
+                {
+                    case "1":
+                        u.t1 += number;
+                        break;
+                    case "2":
+                        u.t2 += number;
+                        break;
+                    case "3":
+                        u.t3 += number;
+                        break;
+                }
+                db.SaveChanges();
+                return "1";
+            }
+            return "0";
+        }
+
+        public string activateTicket(string token, string ticketType)
+        {
+            User u = db.User.SingleOrDefault(user => user.authtoken == token);
+            if (u != null)
+            {
+                switch (ticketType)
+                {
+                    case "1":
+                        if (u.t1 > 0)
+                            u.t1 -= 1;
+                        else
+                            return "0";
+                        break;
+                    case "2":
+                        if (u.t2 > 0)
+                            u.t2 -= 1;
+                        else
+                            return "0";
+                        break;
+                    case "3":
+                        if (u.t3 > 0)
+                            u.t3 -= 1;
+                        else
+                            return "0";
+                        break;
+                }
+                db.SaveChanges();
+                return "1";
+            }
+            return "0";
+        }
+
+
+
+
+
+
     }
 }

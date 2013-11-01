@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WcfService1
+namespace BusServer
 {
     using System;
     using System.Collections.Generic;
