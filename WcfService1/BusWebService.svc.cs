@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace WcfService1
 {
@@ -88,7 +89,7 @@ namespace WcfService1
         }
         public int AddSpot(string name, string android_id)
         {   
-            Spot s = db.Spot.SingleOrDefault(p => p.android_id == android_id);
+            Spot s = db.Spot.SingleOrDefault(p => p.name == name);
            
             if (s != null)
             {
@@ -125,65 +126,85 @@ namespace WcfService1
             return "0";
         }
 
-        public string activateTicket(string token, int ticketType, int spot)
+        public String activateTicket(int user, int ticketType, int spot)
         {
-            User u = db.User.SingleOrDefault(user => user.authtoken == token);
-            if (u != null)
-            {
+            User u = db.User.SingleOrDefault(p => p.Id == user);
+            if(u != null){
                 Validation v = db.Validation.SingleOrDefault(p => p.user == u.Id);
-                if (v == null)
+                if (v != null)
                 {
-                    switch (ticketType)
-                    {
-                        case 1:
-                            if (u.t1 > 0)
-                                u.t1 -= 1;
-                            else
-                                return "0";
-                            break;
-                        case 2:
-                            if (u.t2 > 0)
-                                u.t2 -= 1;
-                            else
-                                return "0";
-                            break;
-                        case 3:
-                            if (u.t3 > 0)
-                                u.t3 -= 1;
-                            else
-                                return "0";
-                            break;
-                    }
-                    v = new Validation();
-                    v.type = ticketType;
-                    v.user = u.Id;
-                    v.spot = spot;
+                    db.Validation.Remove(v);
                 }
-                else
+                switch (ticketType)
                 {
-                    /*
-                    TimeSpan t = v.stamp - DateTime.Now;
-                    int t1;
-                    switch (v.type)
-                    {
-                        case 1:
-                            t1 = 60;
-                            break;
-                        case 2:
-                            t1 = 30;
-                            break;
-                        case 3:
-                            t1 = 15;
-                            break;
-                    }
-                     * */
-                    v.type = ticketType;
-                    v.spot = spot;
+                    case 1:
+                        if (u.t1 > 0)
+                            u.t1 -= 1;
+                        else
+                            return "erro";
+                        break;
+                    case 2:
+                        if (u.t2 > 0)
+                            u.t2 -= 1;
+                        else
+                            return "erro";
+                        break;
+                    case 3:
+                        if (u.t3 > 0)
+                            u.t3 -= 1;
+                        else
+                            return "erro";
+                        break;
                 }
+                Validation v1 = new Validation();
+                v1.type = ticketType;
+                v1.user = u.Id;
+                v1.spot = spot;
+                db.Validation.Add(v1);
                 db.SaveChanges();
-                return "1";
+
+                return Regex.Replace(u.name, @"\s", "");
             }
-            return "0";
+            else
+            {
+                return "erro";
+            }
+        }
+
+        public List<Spot> getSpots()
+        {
+           List<Spot> l = db.Spot.OrderBy(p => p.name).ToList();
+           List<Spot> r = new List<Spot>();
+           foreach (Spot s in l)
+           {
+               if (s.Id == 1)
+               {
+                   r.Add(new Spot { Id = s.Id, name = "aqui", android_id = s.android_id });
+               }
+               else {
+                   r.Add(new Spot { Id = s.Id, name = s.name, android_id = s.android_id });
+               }
+              // r.Add(new Spot { Id = s.Id, name = s.name, android_id = s.android_id});
+           }
+           return r;
+
+        }
+
+    
+        public List<Validation> validation(int spot)
+        {
+            List<Validation> l = db.Validation.Where(p => p.spot == spot).ToList();
+            List<Validation> r = new List<Validation>();
+            foreach (Validation s in l)
+            {
+
+                int t = (DateTime.Now - s.stamp).Minutes;
+                if (t <= 90)
+                {
+                r.Add(new Validation {type = s.type, stamp = s.stamp, user = s.user });
+                }
+            }
+            return r;
         }
     }
 }
