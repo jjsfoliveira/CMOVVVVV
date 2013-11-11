@@ -23,7 +23,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="name" Type="nchar" MaxLength="255" Nullable="false" />
           <Property Name="password" Type="nchar" MaxLength="255" Nullable="false" />
           <Property Name="email" Type="nchar" MaxLength="255" Nullable="false" />
@@ -32,7 +32,6 @@
           <Property Name="t2" Type="int" Nullable="false" />
           <Property Name="t3" Type="int" Nullable="false" />
           <Property Name="authtoken" Type="nchar" MaxLength="255" />
-          <Property Name="authtimestamp" Type="timestamp" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="Validation">
           <Key>
@@ -56,7 +55,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Validation__user__42ACE4D4">
+        <Association Name="FK__Validation__user__6BAEFA67">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="Validation" Type="Self.Validation" Multiplicity="*" />
           <ReferentialConstraint>
@@ -77,7 +76,7 @@
             <End Role="Spot" EntitySet="Spot" />
             <End Role="Validation" EntitySet="Validation" />
           </AssociationSet>
-          <AssociationSet Name="FK__Validation__user__42ACE4D4" Association="Self.FK__Validation__user__42ACE4D4">
+          <AssociationSet Name="FK__Validation__user__6BAEFA67" Association="Self.FK__Validation__user__6BAEFA67">
             <End Role="User" EntitySet="User" />
             <End Role="Validation" EntitySet="Validation" />
           </AssociationSet>
@@ -109,7 +108,6 @@
           <NavigationProperty Name="Validation" Relationship="Self.FK_user_id" FromRole="User" ToRole="Validation" />
           <Property Name="creditcard" Type="String" MaxLength="255" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="authtoken" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
-          <Property Name="authtimestamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="Validation">
           <Key>
@@ -185,7 +183,6 @@
           <EntitySetMapping Name="User">
             <EntityTypeMapping TypeName="DatabaseModel.User">
               <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="authtimestamp" ColumnName="authtimestamp" />
                 <ScalarProperty Name="authtoken" ColumnName="authtoken" />
                 <ScalarProperty Name="creditcard" ColumnName="creditcard" />
                 <ScalarProperty Name="Id" ColumnName="Id" />

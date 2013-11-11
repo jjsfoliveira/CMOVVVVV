@@ -28,7 +28,6 @@ namespace BusServer
         public int t3 { get; set; }
         public string creditcard { get; set; }
         public string authtoken { get; set; }
-        public byte[] authtimestamp { get; set; }
     
         public virtual ICollection<Validation> Validation { get; set; }
     }

@@ -8,6 +8,8 @@ using System.Security.Cryptography;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Web.Script.Serialization;
 
 namespace WcfService1
 {
@@ -32,7 +34,7 @@ namespace WcfService1
             return token.Substring(token.Length - 10); // strip out extra digits, if any
         }
 
-        public string createUser(string name, string password, string creditcard, string email) // TODO verificar se ja existe outro igual
+        public string createUser(String name, String password, String creditcard, String email) // TODO verificar se ja existe outro igual
         {
             User u = new User();
             u.name = name;
@@ -71,20 +73,32 @@ namespace WcfService1
             //return token;
         }
 
-        public string login(string email, string password)
+        public User login(string email, string password)
         {
             User myUser = db.User.SingleOrDefault(user => user.email == email);
             if (myUser != null)
-            {   
-                if (myUser.password == password)
+            {
+                if (String.Equals(Regex.Replace(myUser.password, @"\s", ""), password, StringComparison.OrdinalIgnoreCase))
                 {
                     string s = generateToken();
                     myUser.authtoken = s;
                     db.SaveChanges();
-                    return s;
+                    User u = new User();
+                    u.name = myUser.name;
+                    u.Id = myUser.Id;
+                    u.t1 = myUser.t1;
+                    u.t2 = myUser.t2;
+                    u.t3 = myUser.t3;
+                    u.authtoken = myUser.authtoken;
+                    u.creditcard = myUser.creditcard;
+                    u.Validation = myUser.Validation;
+                    return u;
+                    
+                    //return Regex.Replace(new JavaScriptSerializer().Serialize(myUser), @"\s", "");
                 }
             }
-                return "0";
+            return null;    
+            //return "";
         }
         public int AddSpot(string name, string android_id)
         {   
@@ -105,9 +119,12 @@ namespace WcfService1
         }
 
 
-        public User getUserInfo(string token)
+        public String getUserInfo(string token)
         {
-            return db.User.SingleOrDefault(user => user.authtoken == token);
+            User u =  db.User.SingleOrDefault(user => user.authtoken == token);
+            if(u != null)
+                return new JavaScriptSerializer().Serialize(u);
+            return "";
         }
 
         public string buyTicket(string token, int n1, int n2, int n3)
@@ -117,10 +134,19 @@ namespace WcfService1
             {
                 if (n1 + n2 + n3 >= 10)
                 {
+                    if (n1 > 0)
+                        n1++;
+                    else
+                        if (n2 > 0)
+                            n2++;
+                        else
+                            if (n3 > 0)
+                                n3++;
                 }
                 u.t1 += n1;
                 u.t2 += n2;
                 u.t3 += n3;
+                db.SaveChanges();
             }
             return "0";
         }
